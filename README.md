@@ -2,6 +2,12 @@
 
 基于 **ESP32-S3-WROOM-1** 的功能集成主板设计：语音交互、LCD 显示、双路 USB-C 供电与下载。使用嘉立创 EDA 专业版完成原理图与 PCB 设计，两层板、器件单面贴装，可直接投产。
 
+## 预览
+
+| 顶层布局 | 底层布局 |
+| --- | --- |
+| ![PCB 顶层](Documentation/images/pcb_top.png) | ![PCB 底层](Documentation/images/pcb_bottom.png) |
+
 ## 硬件规格
 
 | 项目 | 参数 |
