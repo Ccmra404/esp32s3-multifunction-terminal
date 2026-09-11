@@ -74,6 +74,16 @@ ES8311 的模拟电源由 LDO 单独供给，配合输入输出滤波电容与�
 | `Fabrication/PickAndPlace.csv` | SMT 贴片坐标文件 |
 | `Fabrication/PCB_Info.txt` | 板厂工艺参数汇总 |
 
+## 固件
+
+`Firmware/` 目录保存基于开源项目 [78/xiaozhi-esp32](https://github.com/78/xiaozhi-esp32)
+修改的固件工程，其中新增了与本板引脚分配对应的板级配置
+`main/boards/esp32s3-terminal/`。编译与烧录说明见
+[`Firmware/README.md`](Firmware/README.md)。
+
+> 功能验证使用 ESP32-S3 开发板 + ES8311/NS4150B 音频模块 + ST7789 屏幕
+> 在面包板上搭建，引脚与 PCB 设计一致。
+
 ## 工具链
 
 - 嘉立创 EDA 专业版（原理图 / PCB / Gerber / BOM 导出）
