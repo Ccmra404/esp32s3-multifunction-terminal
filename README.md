@@ -4,9 +4,11 @@
 
 ## 预览
 
-| 顶层布局 | 底层布局 |
-| --- | --- |
-| ![PCB 顶层](Documentation/images/pcb_top.png) | ![PCB 底层](Documentation/images/pcb_bottom.png) |
+![ESP32-S3 多功能终端主板 3D 渲染](Documentation/images/pcb_3d_iso.png)
+
+| 3D 俯视 | 顶层布线 | 底层布线 |
+| --- | --- | --- |
+| ![3D 俯视](Documentation/images/pcb_3d_top.png) | ![顶层](Documentation/images/pcb_top.png) | ![底层](Documentation/images/pcb_bottom.png) |
 
 ## 硬件规格
 
@@ -71,7 +73,6 @@ ES8311 的模拟电源由 LDO 单独供给，配合输入输出滤波电容与�
 | `Fabrication/BOM.csv` | 物料清单，含立创商城编号 |
 | `Fabrication/PickAndPlace.csv` | SMT 贴片坐标文件 |
 | `Fabrication/PCB_Info.txt` | 板厂工艺参数汇总 |
-| `Documentation/Board_3D.step` | 板级 3D 模型 |
 
 ## 工具链
 

@@ -11,6 +11,8 @@ Desktop.ini
 *.history
 *.log
 
-# STEP/3D temp
+# Large 3D exports (kept out of the repo)
+*.step
+*.stp
 *.stl
 ~$*
