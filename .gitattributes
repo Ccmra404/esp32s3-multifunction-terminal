@@ -1,0 +1,15 @@
+* text=auto
+
+# Binary assets
+*.eprj2 binary
+*.step binary
+*.zip binary
+*.xlsx binary
+*.pdf binary
+*.png binary
+*.jpg binary
+
+# Text assets
+*.md text eol=lf
+*.csv text eol=lf
+*.txt text eol=lf

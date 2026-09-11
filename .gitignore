@@ -1,0 +1,16 @@
+# OS / editor
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.tmp
+*.bak
+
+# EDA recovery / cache
+*_backup/
+*.epro2.bak
+*.history
+*.log
+
+# STEP/3D temp
+*.stl
+~$*

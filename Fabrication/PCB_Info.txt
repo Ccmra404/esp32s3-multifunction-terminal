@@ -1,0 +1,21 @@
+工程标题: 		ESP32-S3多功能终端
+板子标题: 		PCB2
+PCB 标题: 		PCB2
+时间: 		2026-09-11 21:33:40
+
+板子尺寸: 		45mm x 65mm
+层: 		Total 22, Copper 2
+
+器件: 		33
+封装: 		21
+元件: 		Total 68,top 68,Bottom 0
+焊盘: 		Total 261, TopSurface 243,BotSurface 0,Plated Through-hole 18, Nono Plated Through-role 0
+网络: 		Total 59, Unrouted 0
+测试点: 		All Nets 59,Has Testpoint Nets 0,Testpoint Coverage 0%
+ 		Total 0,Top Side Testpoints 0,Bottom Side Testpoints 0
+
+挖槽区域: 		4
+过孔: 		Total 86, Through Vias 86, Blind Or Buried Vais 0
+铺铜区域: 		2
+导线长度: 		1188.218mm
+
