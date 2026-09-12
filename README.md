@@ -11,6 +11,8 @@
 
 <p align="center">
   <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_3d_iso.png" width="560" alt="整机 3D 渲染">
+  <br>
+  <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/device_photo.jpg" width="420" alt="设备实拍">
 </p>
 
 ## 能做什么
@@ -116,4 +118,4 @@ idf.py -p COMx flash monitor
 | `ESP32-S3多功能终端.eprj2` | 嘉立创 EDA 工程（原理图 + PCB） |
 | `Fabrication/` | Gerber、BOM、贴片坐标、板厂工艺参数 |
 | `Firmware/` | 固件工程与板级配置 |
-| `Documentation/images/` | 整机 3D 渲染图 |
+| `Documentation/images/` | 整机 3D 渲染图与实拍照片 |
