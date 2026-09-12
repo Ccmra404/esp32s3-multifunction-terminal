@@ -246,7 +246,8 @@ idf.py -p COMx flash monitor
 2. 按 BOM 完成 PCB 贴装，先检查 5V、BUCK 3.3V 和 LDO 3.3V 是否短路。
 3. 连接 ST7789 屏幕和 ES8311/NS4150B 音频模块，接线参考
    [`Firmware/README.md`](Firmware/README.md)。
-4. 安装 ESP-IDF，执行编译命令并把固件烧录到 `ESP32-S3-WROOM-1-N16R8`。
+4. 可直接使用 [v1.0.0 Release](https://github.com/Ccmra404/esp32s3-multifunction-terminal/releases/tag/v1.0.0)
+   中的固件 bin，或安装 ESP-IDF 后自行编译烧录。
 5. 首次上电测试 WiFi、屏幕、麦克风、喇叭和唤醒词，再进行资源包 OTA。
 
 上电检查建议：
@@ -263,6 +264,8 @@ idf.py -p COMx flash monitor
 ## 版本记录
 
 当前版本：`v1.0.0`（2026-09-12）
+
+发布页：[GitHub Release v1.0.0](https://github.com/Ccmra404/esp32s3-multifunction-terminal/releases/tag/v1.0.0)
 
 | 版本 | 日期 | 主要内容 |
 | --- | --- | --- |
@@ -323,6 +326,7 @@ Gerber 和贴片坐标正常提供。
 | `Documentation/images/` | 完整原理图、PCB 布局、整机 3D 渲染图与实拍照片 |
 | `ROADMAP.md` | 电池、扩展接口、传感器和产品化规划 |
 | `CHANGELOG.md` | 项目版本与变更记录 |
+| `Documentation/releases/` | 各版本发布说明 |
 
 ## 许可证
 
