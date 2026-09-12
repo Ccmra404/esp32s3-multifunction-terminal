@@ -490,6 +490,11 @@ bool Assets::Download(std::string url,
                       std::function<void(int progress, size_t speed)> progress_callback) {
     ESP_LOGI(TAG, "Downloading new version of assets from %s", url.c_str());
 
+    if (partition_ == nullptr && !FindPartition(this)) {
+        ESP_LOGE(TAG, "No assets partition found");
+        return false;
+    }
+
     auto network = Board::GetInstance().GetNetwork();
     auto http = network->CreateHttp(0);
 
@@ -550,6 +555,13 @@ bool Assets::Download(std::string url,
              "sectors to erase: %u, total erase size: %u",
              SECTOR_SIZE, content_length, sectors_to_erase, total_erase_size);
 
+    esp_err_t erase_err = esp_partition_erase_range(partition_, 0, total_erase_size);
+    if (erase_err != ESP_OK) {
+        ESP_LOGE(TAG, "Failed to erase assets region (%u bytes): %s", (unsigned int)total_erase_size,
+                 esp_err_to_name(erase_err));
+        return false;
+    }
+
     size_t total_written = 0;
     size_t recent_written = 0;
     size_t current_sector = 0;
@@ -562,7 +574,13 @@ bool Assets::Download(std::string url,
     while (true) {
         auto ret = http->Read(buffer.get(), SECTOR_SIZE);
         if (!ret) {
-            ESP_LOGE(TAG, "Failed to read HTTP data: %s", ret.error().ToString().c_str());
+            // HTTP servers may close the connection without a graceful EOF after
+            // sending the expected body. Treat a complete Content-Length as success.
+            if (header_collected + total_written == content_length) {
+                success = true;
+            } else {
+                ESP_LOGE(TAG, "Failed to read HTTP data: %s", ret.error().ToString().c_str());
+            }
             break;
         }
         int n = *ret;
@@ -570,6 +588,13 @@ bool Assets::Download(std::string url,
         if (n == 0) {
             // End of data
             success = true;
+            break;
+        }
+
+        if (header_collected + total_written + n > content_length) {
+            ESP_LOGE(TAG, "Downloaded data exceeds expected size (%u > %u)",
+                     (unsigned int)(header_collected + total_written + n),
+                     (unsigned int)content_length);
             break;
         }
 
@@ -589,32 +614,7 @@ bool Assets::Download(std::string url,
             size_t write_len = (size_t)n - buf_pos;
             size_t write_end_offset = HEADER_SIZE + total_written + write_len;
             size_t needed_sectors = (write_end_offset + SECTOR_SIZE - 1) / SECTOR_SIZE;
-            // Erase sectors
-            bool erase_failed = false;
-            while (current_sector < needed_sectors) {
-                size_t sector_start = current_sector * SECTOR_SIZE;
-                size_t sector_end = sector_start + SECTOR_SIZE;
-                if (sector_end > partition_->size) {
-                    ESP_LOGE(TAG, "Sector end (%u) exceeds partition size (%lu)", sector_end,
-                             partition_->size);
-                    erase_failed = true;
-                    break;
-                }
-                ESP_LOGD(TAG, "Erasing sector %u (offset: %u, size: %u)", current_sector,
-                         sector_start, SECTOR_SIZE);
-                esp_err_t err = esp_partition_erase_range(partition_, sector_start, SECTOR_SIZE);
-                if (err != ESP_OK) {
-                    ESP_LOGE(TAG, "Failed to erase sector %u at offset %u: %s", current_sector,
-                             sector_start, esp_err_to_name(err));
-                    erase_failed = true;
-                    break;
-                }
-                current_sector++;
-            }
-
-            if (erase_failed) {
-                break;
-            }
+            current_sector = needed_sectors;
 
             esp_err_t err = esp_partition_write(partition_, HEADER_SIZE + total_written,
                                                 buffer.get() + buf_pos, write_len);
@@ -642,6 +642,11 @@ bool Assets::Download(std::string url,
             }
             last_calc_time = esp_timer_get_time();
             recent_written = 0;
+        }
+
+        if (header_collected + total_written == content_length) {
+            success = true;
+            break;
         }
     }
 
