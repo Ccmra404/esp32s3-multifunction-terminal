@@ -81,8 +81,20 @@ main/boards/esp32s3-terminal/
 
 ## 编译与烧录
 
-需要先安装 [ESP-IDF](https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32s3/get-started/index.html)
-（建议 v5.4 及以上），然后在工程根目录执行：
+本项目不是 Arduino 工程，需要使用 ESP-IDF 的 CMake/Ninja 工具链。当前已在以下
+环境完成编译、烧录和运行验证：
+
+| 工具 | 版本 |
+| --- | --- |
+| ESP-IDF | v6.1 |
+| 目标芯片 | ESP32-S3 |
+| Python | 3.12.10 |
+| Xtensa GCC | 15.2.0 |
+| CMake | 4.0.3 |
+| Ninja | 1.12.1 |
+
+安装 [ESP-IDF v6.1](https://docs.espressif.com/projects/esp-idf/zh_CN/latest/esp32s3/get-started/index.html)
+后，在 `Firmware/xiaozhi-esp32` 目录执行：
 
 ```bash
 idf.py set-target esp32s3
