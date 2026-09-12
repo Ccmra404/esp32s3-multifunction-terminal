@@ -35,6 +35,8 @@ Es8311AudioCodec::Es8311AudioCodec(void* i2c_master_handle, i2c_port_t i2c_port,
         .port = i2c_port,
         .addr = es8311_addr,
         .bus_handle = i2c_master_handle,
+        // 0 keeps the component default, which is 100 kHz.
+        .clock_speed_hz = 100000,
     };
     ctrl_if_ = audio_codec_new_i2c_ctrl(&i2c_cfg);
     assert(ctrl_if_ != NULL);

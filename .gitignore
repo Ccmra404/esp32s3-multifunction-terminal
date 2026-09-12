@@ -4,6 +4,7 @@ Desktop.ini
 .DS_Store
 *.tmp
 *.bak
+.vscode/
 
 # EDA recovery / cache
 *_backup/
@@ -16,3 +17,16 @@ Desktop.ini
 *.stp
 *.stl
 ~$*
+
+# Build output
+Firmware/**/build/
+Firmware/**/build/**
+
+# ESP-IDF managed components (re-downloaded by the component manager)
+Firmware/**/managed_components/
+Firmware/**/managed_components/**
+
+# ESP-IDF generated config
+Firmware/**/sdkconfig
+Firmware/**/sdkconfig.old
+Firmware/**/dependencies.lock

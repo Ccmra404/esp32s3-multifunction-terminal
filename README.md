@@ -4,11 +4,9 @@
 
 ## 预览
 
-![ESP32-S3 多功能终端主板 3D 渲染](Documentation/images/pcb_3d_iso.png)
+![ESP32-S3 多功能终端主板 3D 渲染](https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_3d_iso.png)
 
-| 3D 俯视 | 顶层布线 | 底层布线 |
-| --- | --- | --- |
-| ![3D 俯视](Documentation/images/pcb_3d_top.png) | ![顶层](Documentation/images/pcb_top.png) | ![底层](Documentation/images/pcb_bottom.png) |
+![3D 俯视](https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_3d_top.png)
 
 ## 硬件规格
 
