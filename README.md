@@ -10,6 +10,7 @@
   <a href="#项目优化">项目优化</a> ·
   <a href="#系统结构">系统结构</a> ·
   <a href="#硬件规格">硬件规格</a> ·
+  <a href="#原理图">原理图</a> ·
   <a href="#后续优化方向">后续优化方向</a> ·
   <a href="#固件">固件</a> ·
   <a href="#版本记录">版本记录</a>
@@ -56,7 +57,7 @@
 
 ## 项目优化
 
-本项目不是只把模块连接起来，重点做的是电源、接口、信号完整性和升级可靠性：
+项目在模块方案基础上，重点完成了电源、接口、信号完整性和升级可靠性设计：
 
 - **双 USB-C 架构**：下载口和原生 USB 分开，调试、供电和设备通信互不影响。
 - **数字与音频供电分区**：BUCK 3.3V 供主控和屏幕，LDO 3.3V 从 USB 5V 独立
@@ -101,6 +102,14 @@ USB 5V 经 LDO 降压供电。两路电源彼此独立，避免 BUCK 的开关�
 | 板型 | 45 × 65 mm，双层板，器件单面贴装 |
 
 完整的原理图、PCB 源文件、Gerber 和 BOM 都在本仓库。
+
+## 原理图
+
+<p align="center">
+  <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/schematic_full.png">
+    <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/schematic_full.png" width="1100" alt="完整原理图">
+  </a>
+</p>
 
 ## 硬件设计要点
 
@@ -192,7 +201,7 @@ idf.py -p COMx flash monitor
 | `ESP32-S3多功能终端.eprj2` | 嘉立创 EDA 工程（原理图 + PCB） |
 | `Fabrication/` | Gerber、BOM、贴片坐标、板厂工艺参数 |
 | `Firmware/` | 固件工程与板级配置 |
-| `Documentation/images/` | 整机 3D 渲染图与实拍照片 |
+| `Documentation/images/` | 完整原理图、整机 3D 渲染图与实拍照片 |
 | `ROADMAP.md` | 电池、扩展接口、传感器和产品化规划 |
 | `CHANGELOG.md` | 项目版本与变更记录 |
 
