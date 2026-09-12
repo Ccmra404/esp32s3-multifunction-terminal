@@ -10,14 +10,15 @@
   <a href="#项目优化">项目优化</a> ·
   <a href="#系统结构">系统结构</a> ·
   <a href="#硬件规格">硬件规格</a> ·
-  <a href="#原理图">原理图</a> ·
-  <a href="#pcb-布局">PCB 布局</a> ·
+  <a href="#硬件设计图">硬件设计图</a> ·
   <a href="#后续优化方向">后续优化方向</a> ·
   <a href="#固件">固件</a> ·
   <a href="#版本记录">版本记录</a>
 </p>
 
 ## 项目简介
+
+当前版本：`v1.0.0` · 最近更新：`2026-09-12`
 
 本项目基于 **ESP32-S3-WROOM-1** 开发，已完成硬件设计与固件移植，
 成功跑通语音对话、唤醒词唤醒、表情动画显示、语音播报等功能。
@@ -41,11 +42,24 @@
 
 ### 实物展示
 
-<p align="center">
-  <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_3d_iso.png" width="560" alt="整机 3D 渲染">
-  <br>
-  <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/device_photo.jpg" width="420" alt="设备实拍">
-</p>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_3d_iso.png">
+        <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_3d_iso.png" width="360" alt="整机 3D 渲染">
+      </a>
+      <br>
+      <sub>整机 3D 渲染</sub>
+    </td>
+    <td align="center">
+      <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/device_photo.jpg">
+        <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/device_photo.jpg" width="260" alt="设备实拍">
+      </a>
+      <br>
+      <sub>设备实拍</sub>
+    </td>
+  </tr>
+</table>
 
 ## 项目功能
 
@@ -106,21 +120,28 @@ USB 5V 经 LDO 降压供电。两路电源彼此独立，避免 BUCK 的开关�
 完整原理图和 PCB 布局图见下。BOM、Gerber 和贴片坐标位于 `Fabrication/`；
 可编辑的 EasyEDA 工程源文件不公开。
 
-## 原理图
+## 硬件设计图
 
-<p align="center">
-  <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/schematic_full.png">
-    <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/schematic_full.png" width="1100" alt="完整原理图">
-  </a>
-</p>
+点击图片可以查看原始分辨率。
 
-## PCB 布局
-
-<p align="center">
-  <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_layout.png">
-    <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_layout.png" width="600" alt="PCB 布局">
-  </a>
-</p>
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/schematic_full.png">
+        <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/schematic_full.png" width="540" alt="完整原理图">
+      </a>
+      <br>
+      <sub>完整原理图</sub>
+    </td>
+    <td align="center">
+      <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_layout.png">
+        <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_layout.png" width="300" alt="PCB 布局">
+      </a>
+      <br>
+      <sub>PCB 布局</sub>
+    </td>
+  </tr>
+</table>
 
 ## 硬件设计要点
 
