@@ -1,26 +1,55 @@
-# ESP32-S3 多功能终端主板
+# ESP32-S3 桌面语音交互终端
 
-基于 **ESP32-S3-WROOM-1** 的功能集成主板设计：语音交互、LCD 显示、双路 USB-C 供电与下载。使用嘉立创 EDA 专业版完成原理图与 PCB 设计，两层板、器件单面贴装，可直接投产。
+一块能听懂你说话的桌面小终端。
 
-## 预览
+唤醒词「你好小智」或者按一下按键，就能和它对话。它会用表情回应你，
+把说的话转成文字显示在屏幕上，再用语音把答案讲出来。
 
-![ESP32-S3 多功能终端主板 3D 渲染](https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_3d_iso.png)
+硬件基于 **ESP32-S3-WROOM-1**，配 1.54 寸屏幕、ES8311 编解码器和
+NS4150B 功放。原理图、PCB、制板文件和固件全部开源。
 
-![3D 俯视](https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_3d_top.png)
+<p align="center">
+  <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_3d_iso.png" width="560" alt="整机 3D 渲染">
+</p>
+
+## 能做什么
+
+- **语音对话**：唤醒词或按键进入对话，说完自动识别并回答
+- **屏幕反馈**：显示表情动画和对话文字，状态一目了然
+- **免按键唤醒**：离线唤醒词识别，不用每次按键
+- **语音播报**：回答通过喇叭实时播放
+- **配网简单**：手机连上设备热点即可配置 WiFi
+- **双 USB-C**：一个下载调试，一个原生 USB
+
+## 系统结构
+
+```
+                  ┌──────────────────────────────┐
+                  │      ESP32-S3-WROOM-1        │
+                  │   (16MB Flash / 8MB PSRAM)   │
+  麦克风 ──I2S──▶ │                              │ ──SPI──▶ 1.54" 屏幕
+  喇叭 ◀──I2S──   │        WiFi 2.4G             │ ──I2C──▶ ES8311 配置
+                  └──────────────┬───────────────┘
+                                 │
+                          USB 5V ─┴─ BUCK 3.3V ── LDO 3.3V（音频独立供电）
+```
+
+音频链路独立供电：BUCK 给 MCU、USB、屏幕供电，模拟部分经 LDO 二次
+稳压，降低开关噪声对音频的干扰。
 
 ## 硬件规格
 
 | 项目 | 参数 |
 | --- | --- |
 | 主控 | ESP32-S3-WROOM-1（16MB Flash / 8MB PSRAM） |
-| 音频 | ES8311 编解码器 + NS4150B 功放，数字麦克风与喇叭输出 |
-| 显示 | 8Pin SPI LCD 接口（SCK / MOSI / DC / RES / CS / BL） |
-| 下载 | CH340 USB 转串口 + 自动下载电路（DTR/RTS 控制 RESET/BOOT） |
-| USB | 双 Type-C：一路下载调试，一路原生 USB（IO19/IO20） |
-| 电源 | USB 5V 输入保护 -> BUCK 3.3V（数字域）-> LDO 3.3V（模拟域） |
-| 板型 | 45 x 65 mm，两层板，单面贴装 |
+| 音频 | ES8311 编解码器 + NS4150B 功放，板载 MEMS 麦克风 |
+| 显示 | 1.54 寸 ST7789，240×240 |
+| 交互 | 唤醒词 + BOOT 按键 |
+| USB | 双 Type-C：CH340 下载口 + 原生 USB |
+| 电源 | USB 5V 输入保护 → BUCK 3.3V（数字）→ LDO 3.3V（模拟） |
+| 板型 | 45 × 65 mm，双层板，器件单面贴装 |
 
-## PCB 设计数据
+## PCB 设计
 
 | 指标 | 数值 |
 | --- | --- |
@@ -29,64 +58,71 @@
 | 焊盘总数 | 261 |
 | 过孔 | 86 |
 | 走线总长 | 1188.2 mm |
-| 铺铜 | 顶层 + 底层，共 2 块 GND 平面 |
-| 铜层 | 2 层 |
+| 铺铜 | 顶层 + 底层各一块 GND 平面 |
 
-## 电源架构
+完整的原理图、PCB 源文件、Gerber 和 BOM 都在本仓库。
 
-```
-USB1 --[保险丝 F3]--|>|--+
-                          +-- +5V --+-- BUCK(U6) -- L2 -- 3V3（数字域）
-USB2 --[保险丝 F2]--|>|--+           |                      |
-                                     |                      +-- LDO(U4) -- +3.3V（模拟域）
-                                     +-- NS4150B 功放
-```
+## 硬件设计要点
 
-音频与数字供电**分域隔离**：BUCK 输出供 MCU、USB、LCD 使用，经 LDO 二次稳压后为 ES8311 与数字麦克风供电，降低开关电源纹波对音频链路的干扰。
+**USB 差分对等长走线**
 
-## 关键设计点
+两条 USB 通道（CH340 下载口、ESP32 原生 USB）的 D+/D- 全程等宽等距走线，
+两对实测长度均为 64.6 mm，长度差为 0。差分对之间保持距离，避免互相耦合。
 
-**USB 差分对**
+**DCDC 开关节点紧凑布局**
 
-CH340 下载通道与 ESP32-S3 原生 USB 通道均为 USB 全速 12 Mbps。D+/D- 差分对全程等宽等距走线，两对实测长度均为 64.6 mm，长度差为 0。
+BUCK 电路的电感紧贴芯片 SW 引脚，输入输出电容就近放置，把开关环路面积
+压到最小。开关节点是主要的辐射源，环路越小，EMI 越低。
 
-**自动下载电路**
+**模拟与数字供电分域**
 
-采用双三极管方案，由 CH340 的 DTR / RTS 控制 ESP32-S3 的 RESET 与 BOOT 引脚。上位机拉低对应信号即可自动进入下载模式，无需手动按键。
+BUCK 输出的 3.3V 供 MCU、USB、屏幕使用；音频链路（ES8311 + MEMS 麦克风）
+经 LDO 二次稳压单独供电。LDO 在开关频率处有较高的抑制能力，
+把电源纹波压到更低量级，减少对音频通路的干扰。
 
-**音频电源**
+**GND 平面与回流路径**
 
-ES8311 的模拟电源由 LDO 单独供给，配合输入输出滤波电容与参考电压去耦，抑制数字开关噪声串入音频通路。
+顶层和底层各铺一块完整的 GND 平面。去耦电容就近打地过孔，缩短回流路径；
+模拟音频区域下方保持地平面完整，不被数字信号切割。
 
-**GND 平面**
+**接口与连接器布局**
 
-顶层与底层各铺一块 GND 覆铜，保证模拟音频信号的回流路径不被数字信号切割；去耦电容就近打地过孔，缩短回流路径。
+两个 Type-C 落在板子下边缘，方便插拔；LCD 排针紧贴主控下方，缩短 SPI 走线；
+喇叭接口位于板边。天线净空区域保持无铜、无器件。
 
-## 文件说明
+**上拉与保护**
 
-| 文件 | 说明 |
-| --- | --- |
-| `ESP32-S3多功能终端.eprj2` | 嘉立创 EDA 专业版工程（原理图 + PCB 源文件） |
-| `Fabrication/Gerber.zip` | 可直接投产的 Gerber 制版文件 |
-| `Fabrication/BOM.csv` | 物料清单，含立创商城编号 |
-| `Fabrication/PickAndPlace.csv` | SMT 贴片坐标文件 |
-| `Fabrication/PCB_Info.txt` | 板厂工艺参数汇总 |
+I2C 总线配置上拉电阻；USB 入口经过保险丝、防静电管和防反灌二极管；
+BOOT 与 RESET 按键配滤波电容，避免抖动误触发。
 
 ## 固件
 
-`Firmware/` 目录保存基于开源项目 [78/xiaozhi-esp32](https://github.com/78/xiaozhi-esp32)
-修改的固件工程，其中新增了与本板引脚分配对应的板级配置
-`main/boards/esp32s3-terminal/`。编译与烧录说明见
+固件基于开源项目 [78/xiaozhi-esp32](https://github.com/78/xiaozhi-esp32)（MIT），
+新增了一套与本板引脚对应的板级配置。引脚定义与搭建记录见
 [`Firmware/README.md`](Firmware/README.md)。
 
-> 功能验证使用 ESP32-S3 开发板 + ES8311/NS4150B 音频模块 + ST7789 屏幕
-> 在面包板上搭建，引脚与 PCB 设计一致。
+固件通过 MCP 工具把硬件能力开放给大模型，可以直接用语音控制设备，
+例如「声音小一点」「屏幕调亮一些」。
 
-## 工具链
+### 编译烧录
 
-- 嘉立创 EDA 专业版（原理图 / PCB / Gerber / BOM 导出）
-- 立创商城（器件选型与料号）
+需要 ESP-IDF v5.4 或以上：
 
-## 说明
+```bash
+cd Firmware/xiaozhi-esp32
+idf.py set-target esp32s3
+idf.py menuconfig     # Board Type 选 ESP32-S3 Terminal
+idf.py build
+idf.py -p COMx flash monitor
+```
 
-本仓库为硬件设计工程，包含完整的原理图与 PCB 源文件、制板文件与物料清单，可直接打样投产。
+首次编译会自动下载依赖组件。
+
+## 仓库内容
+
+| 路径 | 说明 |
+| --- | --- |
+| `ESP32-S3多功能终端.eprj2` | 嘉立创 EDA 工程（原理图 + PCB） |
+| `Fabrication/` | Gerber、BOM、贴片坐标、板厂工艺参数 |
+| `Firmware/` | 固件工程与板级配置 |
+| `Documentation/images/` | 整机 3D 渲染图 |
