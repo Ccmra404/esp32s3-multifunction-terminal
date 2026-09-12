@@ -32,4 +32,3 @@ Firmware/**/managed_components/**
 # ESP-IDF generated config
 Firmware/**/sdkconfig
 Firmware/**/sdkconfig.old
-Firmware/**/dependencies.lock

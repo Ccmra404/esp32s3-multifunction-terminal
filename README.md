@@ -287,6 +287,65 @@ idf.py -p COMx flash monitor
 [v1.0.0 Release](https://github.com/Ccmra404/esp32s3-multifunction-terminal/releases/tag/v1.0.0)
 中的固件 bin。
 
+### 构建可复现性
+
+- 仓库提交 `dependencies.lock`，固定当前组件版本，减少依赖漂移。
+- GitHub Actions 使用 ESP-IDF `v6.1` 自动编译 `esp32s3-terminal` 板型。
+- Release 固件提供 SHA256 校验文件，下载后可核对文件完整性。
+
+### 编译流程截图
+
+<table align="center">
+  <tr>
+    <td align="center">
+      <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/build/idf_launcher.png">
+        <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/build/idf_launcher.png" width="480" alt="ESP-IDF 启动器">
+      </a>
+      <br>
+      <sub>ESP-IDF 安装管理器</sub>
+    </td>
+    <td align="center">
+      <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/build/idf_environment.png">
+        <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/build/idf_environment.png" width="480" alt="ESP-IDF 环境">
+      </a>
+      <br>
+      <sub>ESP-IDF v6.1 工具链</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/build/target_esp32s3.png">
+        <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/build/target_esp32s3.png" width="480" alt="目标芯片选择">
+      </a>
+      <br>
+      <sub>选择 ESP32-S3 目标</sub>
+    </td>
+    <td align="center">
+      <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/build/board_type.png">
+        <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/build/board_type.png" width="480" alt="板型配置">
+      </a>
+      <br>
+      <sub>ESP32-S3 Terminal 板型</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/build/flash_success.png">
+        <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/build/flash_success.png" width="480" alt="烧录成功">
+      </a>
+      <br>
+      <sub>固件烧录成功</sub>
+    </td>
+    <td align="center">
+      <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/build/serial_monitor.png">
+        <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/build/serial_monitor.png" width="480" alt="串口日志">
+      </a>
+      <br>
+      <sub>串口启动日志</sub>
+    </td>
+  </tr>
+</table>
+
 ## 快速复刻
 
 1. 从 `Fabrication/` 获取 Gerber、BOM、贴片坐标和板厂参数。
