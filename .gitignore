@@ -12,9 +12,8 @@ Desktop.ini
 *.history
 *.log
 
-# Hardware source and fabrication files stay local
+# Editable hardware project source stays local
 /*.eprj2
-/Fabrication/
 
 # Large 3D exports (kept out of the repo)
 *.step
