@@ -12,7 +12,7 @@
   <a href="#硬件规格">硬件规格</a> ·
   <a href="#硬件设计图">硬件设计图</a> ·
   <a href="#后续优化方向">后续优化方向</a> ·
-  <a href="#固件">固件</a> ·
+  <a href="#软件与固件">软件与固件</a> ·
   <a href="#版本记录">版本记录</a>
 </p>
 
@@ -46,6 +46,7 @@
 | --- | --- |
 | 制作难度 | 中等，核心链路已验证，PCB 为双层、单面贴装 |
 | 核心链路 | WiFi + I2S 音频 + SPI 显示 + MCP 设备控制 |
+| 软件环境 | ESP-IDF v6.1，上游固件版本 2.5.0 |
 | 预计物料成本 | 约 60–70 元，不含 PCB 打样、运费和工具 |
 | 当前版本 | `v1.0.0` |
 | 下一步重点 | 电池与便携供电、标准扩展接口、传感器和低功耗 |
@@ -97,6 +98,8 @@
   损坏分区，并在下载前批量擦除，避免 6 MB 级资源包因逐扇区擦除超时。
 - **硬件与固件统一**：自定义 xiaozhi-esp32 板级配置，引脚、供电和原理图保持一致，
   同时保留 Gerber、BOM、贴片坐标和调试记录。
+- **ESP-IDF 6.1 适配**：板级代码在 ESP-IDF v6.1 下编译运行，并适配 MCP、屏幕表情、
+  音频链路和资源 OTA。
 
 ## 系统结构
 
@@ -217,18 +220,60 @@ BOOT 与 RESET 按键配滤波电容，避免抖动误触发。
 | 存储与低功耗 | microSD、资源缓存、休眠和唤醒策略 | 支持离线内容和更长时间待机 |
 | 硬件迭代 | 四层板、EMC 优化、结构外壳和测试点 | 提高稳定性并形成完整产品外观 |
 
-## 固件
+## 软件与固件
 
-固件基于开源项目 [78/xiaozhi-esp32](https://github.com/78/xiaozhi-esp32)（MIT），
-新增了一套与本板引脚对应的板级配置。引脚定义与搭建记录见
-[`Firmware/README.md`](Firmware/README.md)。
+### 上游来源
 
-固件通过 MCP 工具把硬件能力开放给大模型，可以直接用语音控制设备，
+软件基于 GitHub 开源项目 [78/xiaozhi-esp32](https://github.com/78/xiaozhi-esp32)（MIT）
+编译和适配，当前上游固件版本为 `2.5.0`。本项目新增了
+`main/boards/esp32s3-terminal/` 板级配置，并在 `main/Kconfig.projbuild` 和
+`main/CMakeLists.txt` 中完成注册。
+
+这不是 Arduino 工程，而是 ESP-IDF 的 CMake/Ninja 工程。板级文件位于：
+
+```text
+Firmware/xiaozhi-esp32/main/boards/esp32s3-terminal/
+├── config.h
+├── config.json
+└── esp32s3_terminal_board.cc
+```
+
+### 软件架构
+
+```text
+语音唤醒 / 对话 / MCP 设备控制
+            │
+       Application
+            │
+  AudioService + LVGL + OTA
+            │
+ESP-IDF + FreeRTOS + WiFi + TLS
+            │
+ESP32-S3-WROOM-1-N16R8
+```
+
+固件通过 MCP 工具把屏幕、音量等能力开放给大模型，可以直接用语音控制设备，
 例如「声音小一点」「屏幕调亮一些」。
+
+### 开发环境
+
+以下环境为本项目实际编译、烧录和运行验证环境：
+
+| 工具 | 版本 |
+| --- | --- |
+| ESP-IDF | v6.1 |
+| 目标芯片 | ESP32-S3 |
+| Python | 3.12.10 |
+| Xtensa GCC | 15.2.0 |
+| CMake | 4.0.3 |
+| Ninja | 1.12.1 |
+| 固件版本 | 2.5.0 |
+
+板级适配细节和接线记录见 [`Firmware/README.md`](Firmware/README.md)。
 
 ### 编译烧录
 
-需要 ESP-IDF v5.4 或以上：
+安装 ESP-IDF v6.1 后，在工程目录执行：
 
 ```bash
 cd Firmware/xiaozhi-esp32
@@ -238,7 +283,9 @@ idf.py build
 idf.py -p COMx flash monitor
 ```
 
-首次编译会自动下载依赖组件。
+首次编译会通过组件管理器自动下载依赖。也可以直接使用
+[v1.0.0 Release](https://github.com/Ccmra404/esp32s3-multifunction-terminal/releases/tag/v1.0.0)
+中的固件 bin。
 
 ## 快速复刻
 
