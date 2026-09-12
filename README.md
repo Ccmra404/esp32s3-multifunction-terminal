@@ -11,6 +11,7 @@
   <a href="#系统结构">系统结构</a> ·
   <a href="#硬件规格">硬件规格</a> ·
   <a href="#原理图">原理图</a> ·
+  <a href="#pcb-布局">PCB 布局</a> ·
   <a href="#后续优化方向">后续优化方向</a> ·
   <a href="#固件">固件</a> ·
   <a href="#版本记录">版本记录</a>
@@ -111,6 +112,14 @@ USB 5V 经 LDO 降压供电。两路电源彼此独立，避免 BUCK 的开关�
   </a>
 </p>
 
+## PCB 布局
+
+<p align="center">
+  <a href="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_layout.png">
+    <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_layout.png" width="600" alt="PCB 布局">
+  </a>
+</p>
+
 ## 硬件设计要点
 
 **USB 差分对等长走线**
@@ -201,7 +210,7 @@ idf.py -p COMx flash monitor
 | `ESP32-S3多功能终端.eprj2` | 嘉立创 EDA 工程（原理图 + PCB） |
 | `Fabrication/` | Gerber、BOM、贴片坐标、板厂工艺参数 |
 | `Firmware/` | 固件工程与板级配置 |
-| `Documentation/images/` | 完整原理图、整机 3D 渲染图与实拍照片 |
+| `Documentation/images/` | 完整原理图、PCB 布局、整机 3D 渲染图与实拍照片 |
 | `ROADMAP.md` | 电池、扩展接口、传感器和产品化规划 |
 | `CHANGELOG.md` | 项目版本与变更记录 |
 
