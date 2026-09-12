@@ -244,8 +244,8 @@ idf.py -p COMx flash monitor
 
 1. 从 `Fabrication/` 获取 Gerber、BOM、贴片坐标和板厂参数。
 2. 按 BOM 完成 PCB 贴装，先检查 5V、BUCK 3.3V 和 LDO 3.3V 是否短路。
-3. 连接 ST7789 屏幕和 ES8311/NS4150B 音频模块，接线参考
-   [`Firmware/README.md`](Firmware/README.md)。
+3. 连接 ST7789 屏幕和 ES8311/NS4150B 音频模块，麦克风、I2C、时钟等关键连接
+   尽量控制在 5 cm 内，接线参考 [`Firmware/README.md`](Firmware/README.md)。
 4. 可直接使用 [v1.0.0 Release](https://github.com/Ccmra404/esp32s3-multifunction-terminal/releases/tag/v1.0.0)
    中的固件 bin，或安装 ESP-IDF 后自行编译烧录。
 5. 首次上电测试 WiFi、屏幕、麦克风、喇叭和唤醒词，再进行资源包 OTA。
@@ -282,8 +282,8 @@ idf.py -p COMx flash monitor
 
 **麦克风没有反应，但喇叭正常**
 
-优先检查音频模块 DIN/DOUT 方向。模块丝印名称以模块自身为参考，接反后
-输入输出会同时失效。
+优先检查麦克风和 ES8311 相关走线长度。根据模块资料建议，关键连接尽量控制在
+5 cm 内，使用短而固定的线材，避免长杜邦线带来的容性负载和干扰。
 
 **ES8311 偶发无法识别**
 
