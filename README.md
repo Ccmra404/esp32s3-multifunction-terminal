@@ -1,5 +1,20 @@
 # ESP32-S3 桌面语音交互终端
 
+<p align="center">
+  <strong>可以离线唤醒、自然对话、表情反馈和语音控制的桌面 AI 终端</strong>
+</p>
+
+<p align="center">
+  <a href="#项目简介">项目简介</a> ·
+  <a href="#项目功能">项目功能</a> ·
+  <a href="#系统结构">系统结构</a> ·
+  <a href="#硬件规格">硬件规格</a> ·
+  <a href="#固件">固件</a> ·
+  <a href="#版本记录">版本记录</a>
+</p>
+
+## 项目简介
+
 本项目基于 **ESP32-S3-WROOM-1** 开发，已完成硬件设计与固件移植，
 成功跑通语音对话、唤醒词唤醒、表情动画显示、语音播报等功能。
 
@@ -9,13 +24,25 @@
 硬件配 1.54 寸屏幕、ES8311 编解码器和 NS4150B 功放。
 原理图、PCB、制板文件和固件全部开源。
 
+### 项目状态
+
+| 模块 | 状态 | 说明 |
+| --- | --- | --- |
+| 硬件设计 | 已完成 | 原理图、PCB、Gerber、BOM 和贴片坐标已整理 |
+| 音频链路 | 已验证 | ES8311、NS4150B、麦克风和喇叭工作正常 |
+| 显示界面 | 已验证 | ST7789 稳定显示表情动画和对话文字 |
+| 语音交互 | 已验证 | 离线唤醒、语音识别、回答播报可完整运行 |
+| 资源升级 | 已验证 | 支持网页主题包在线升级和中断后重试 |
+
+### 实物展示
+
 <p align="center">
   <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/pcb_3d_iso.png" width="560" alt="整机 3D 渲染">
   <br>
   <img src="https://gcore.jsdelivr.net/gh/Ccmra404/esp32s3-multifunction-terminal@main/Documentation/images/device_photo.jpg" width="420" alt="设备实拍">
 </p>
 
-## 能做什么
+## 项目功能
 
 - **语音对话**：唤醒词或按键进入对话，说完自动识别并回答
 - **屏幕反馈**：显示表情动画和对话文字
@@ -114,13 +141,15 @@ idf.py -p COMx flash monitor
 
 首次编译会自动下载依赖组件。
 
-## 参考与致谢
+## 版本记录
 
-本项目的音频链路、ES8311 + NS4150B 模块连接方式和对应引脚分配参考了
-[Moji 小智AI衍生版](https://oshwhub.com/movecall/moji-xiaozhi-ai-derivative-editi)。
-原工程使用 1.28 寸圆形 GC9A01 屏幕，本项目改为 1.54 寸方形 ST7789，并重新设计了
-矩形主板、双 USB-C 接口和电源分区。原硬件工程标注的许可协议为 **CC BY-NC 4.0**，
-本项目仅用于学习和非商业展示；如继续修改或转载，请同时遵守原工程的署名和非商业要求。
+当前版本：`v1.0.0`（2026-09-12）
+
+| 版本 | 日期 | 主要内容 |
+| --- | --- | --- |
+| `v1.0.0` | 2026-09-12 | 完成硬件设计、固件板级适配、语音对话、显示和主题资源 OTA |
+
+后续功能性、硬件、文档变更会持续记录到 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 仓库内容
 
@@ -130,3 +159,7 @@ idf.py -p COMx flash monitor
 | `Fabrication/` | Gerber、BOM、贴片坐标、板厂工艺参数 |
 | `Firmware/` | 固件工程与板级配置 |
 | `Documentation/images/` | 整机 3D 渲染图与实拍照片 |
+
+## 许可证
+
+本仓库采用 [MIT License](LICENSE)。
